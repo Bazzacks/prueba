@@ -1,0 +1,29 @@
+<script type="text/javascript" src="https://d3js.org/d3.v7.min.js"></script>
+
+<div class="demo">
+
+</div>
+
+<script type="text/javascript">
+    var rowConverter = function(d){
+        return {
+            serial_numer: String(d.serial_number),
+            ts: parseInt(d.ts),
+            sensor: String(d.sensor),
+            val: parseFloat(d.val)
+        }
+    }
+
+    d3.json("data/json/devices_data_sample_json").then(function(data){
+        var dataset = data.map(rowConverter);
+        console.log(dataset);
+        d3.select(".demo")
+            .selectAll("p")
+            .data(dataset)
+            .enter()
+            .append("p")
+            .text(function(d){
+                return d.serial_number + " - " + d.val
+            });
+    });
+</script>
